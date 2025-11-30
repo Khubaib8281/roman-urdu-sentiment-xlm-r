@@ -183,7 +183,11 @@ Muhammad Khubaib Ahmad
 Model Card Contact
 
 [Gmail: muhammadkhubaibahmad854@gmail.com](muhammadkhubaibahmad854@gmail.com)
+
 [HuggingFace](https://huggingface.co/Khubaib01)
+
 [Kaggle](https://www.kaggle.com/muhammadkhubaibahmad)
+
 [LinkedIn](https://www.linkedin.com/in/muhammad-khubaib-ahmad-)
+
 [Portfolio](https://huggingface.co/spaces/Khubaib01/KhubaibAhmad_Portfolio)
