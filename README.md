@@ -180,7 +180,7 @@ Muhammad Khubaib Ahmad. (2025). Roman Urdu Sentiment Analysis Model. HuggingFace
 
 Muhammad Khubaib Ahmad
 
-Model Card Contact
+## Model Card Contact
 
 [Gmail: muhammadkhubaibahmad854@gmail.com](muhammadkhubaibahmad854@gmail.com)
 
