@@ -41,6 +41,7 @@ You can test the Roman Urdu Sentiment Analysis model live on Hugging Face Spaces
 | tahamueed23/urdu-roman-urdu-sentiment | 0.4850 | 0.3872 |
 | Aimlab/xlm-roberta-roman-urdu-finetuned | 0.2558 | 0.2171 |
 
+> Benchmark notebook: [Kaggle](https://www.kaggle.com/code/muhammadkhubaibahmad/romanurdu-sentiment-xlm-r-benchmarking)
 
 ## Model Details
 ### Model Description
@@ -58,27 +59,30 @@ This model is a fine-tuned XLM-RoBERTa Base transformer for Roman Urdu sentiment
 Pretrained Base Model: xlm-roberta-base
 
 ## Uses
-### Direct Use
+## Direct Use
 
 - Classifying sentiment in Roman Urdu social media text.
 - Performing automated content moderation.
-- Enabling analytics on Roman Urdu datasets.
+- Detecting offensive, abusive, or highly negative content in Roman Urdu text due to training on slang-heavy negative messages.
+- Enabling analytics on Roman Urdu datasets, such as understanding user feedback or public opinion.
 
-### Downstream Use
+## Downstream Use
 
-- Feature extraction for multi-task NLP pipelines.
-- Adaptable for other Roman Urdu classification tasks with additional fine-tuning.
+- Can be used as a feature extractor in multi-task NLP pipelines.
+- Adaptable to other Roman Urdu classification tasks with additional fine-tuning.
 
-### Out-of-Scope Use
+## Out-of-Scope Use
 
 - Not suitable for native Urdu script without transliteration.
-- Not intended for detecting sarcasm, irony, or extremely domain-specific slang unseen during training.
+- May not reliably detect subtle sarcasm, irony, or context-specific toxicity.
+- Performance may drop on unseen slang, newly coined offensive terms, or heavily domain-specific expressions.
 
 ## Bias, Risks, and Limitations
 
-- May inherit biases from training data, including slang, offensive terms, and informal language.
-- Accuracy may drop on rare, new, or unseen Roman Urdu slang.
-- May misclassify heavily code-mixed or non-standard text.
+- The model may inherit biases from the training data, including slang, offensive terms, and informal language.
+- Accuracy may be lower on rare, new, or unseen Roman Urdu slang, especially outside social media contexts.
+- Heavily code-mixed or non-standard text may be misclassified.
+- Should not be relied on as a dedicated toxicity detection tool; it flags negative/offensive content as part of its sentiment predictions.
 
 ## Recommendations
 
