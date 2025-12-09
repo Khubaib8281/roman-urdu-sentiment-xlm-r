@@ -23,21 +23,39 @@ This model performs **sentiment classification on Roman Urdu text**, labeling in
 You can test the Roman Urdu Sentiment Analysis model live on Hugging Face Spaces:
 [![Try on Hugging Face](https://img.shields.io/badge/🤗-Try%20it%20on%20Spaces-blue)](https://huggingface.co/spaces/Khubaib01/roman-urdu-sentiment)
 
-## Model Details
+## Benchmark Results
 
+### Slang-heavy dataset
+| Model | Accuracy | Macro F1 |
+|-------|----------|----------|
+| Khubaib01/roman-urdu-sentiment-xlm-r | 0.8444 | 0.8351 |
+| ayeshasameer/xlm-roberta-roman-urdu-sentiment | 0.7833 | 0.7803 |
+| tahamueed23/urdu-roman-urdu-sentiment | 0.4333 | 0.3374 |
+| Aimlab/xlm-roberta-roman-urdu-finetuned | 0.2833 | 0.2084 |
+
+### Formal/Test dataset
+| Model | Accuracy | Macro F1 |
+|-------|----------|----------|
+| Khubaib01/roman-urdu-sentiment-xlm-r | 0.7508 | 0.7318 |
+| ayeshasameer/xlm-roberta-roman-urdu-sentiment | 0.6246 | 0.6246 |
+| tahamueed23/urdu-roman-urdu-sentiment | 0.4850 | 0.3872 |
+| Aimlab/xlm-roberta-roman-urdu-finetuned | 0.2558 | 0.2171 |
+
+
+## Model Details
 ### Model Description
 
-This model is a **fine-tuned XLM-RoBERTa Base** transformer for sentiment analysis in Roman Urdu. It was trained on a balanced dataset of **~54k sentences**, with labels: Positive, Negative, and Neutral. The dataset includes messages from **WhatsApp chats and YouTube comments**, preprocessed to remove media, deleted messages, short messages, and pure emoji-only messages.  
+This model is a fine-tuned XLM-RoBERTa Base transformer for Roman Urdu sentiment analysis. It was trained on a balanced and diverse dataset of ~99k sentences, with labels: Positive, Negative, and Neutral. The dataset includes messages from WhatsApp chats, YouTube comments, Twitter posts, and other social media sources. Preprocessing removed media-only messages, deleted messages, very short messages, and pure emoji messages.
 
-- **Developed by:** Muhammad Khubaib Ahmad  
-- **Model type:** XLM-RoBERTa Base (transformers)  
-- **Language(s):** Roman Urdu, code-mixed Urdu-English  
-- **License:** MIT
-- **Finetuned from model:** `xlm-roberta-base
+- Developed by: Muhammad Khubaib Ahmad
+- Model type: XLM-RoBERTa Base (transformers)
+- Language(s): Roman Urdu, code-mixed Urdu-English
+- License: MIT
+- Finetuned from: xlm-roberta-base
 
-### Model Sources
+## Model Sources
 
-- **Pretrained Base Model:** [`xlm-roberta-base`](https://huggingface.co/xlm-roberta-base)
+Pretrained Base Model: xlm-roberta-base
 
 ## Uses
 ### Direct Use
@@ -48,30 +66,27 @@ This model is a **fine-tuned XLM-RoBERTa Base** transformer for sentiment analys
 
 ### Downstream Use
 
-- Can be used as a feature extractor for multi-task NLP pipelines.
-- Can be adapted to other Roman Urdu classification tasks with further fine-tuning.
+- Feature extraction for multi-task NLP pipelines.
+- Adaptable for other Roman Urdu classification tasks with additional fine-tuning.
 
 ### Out-of-Scope Use
 
-- Not suitable for fully understanding Urdu script (non-Roman Urdu) without transliteration.
-- Not intended for detecting sarcasm, irony, or extremely domain-specific slang beyond the training data.
-
----
+- Not suitable for native Urdu script without transliteration.
+- Not intended for detecting sarcasm, irony, or extremely domain-specific slang unseen during training.
 
 ## Bias, Risks, and Limitations
 
-- The model may inherit biases from the training data, including slang, offensive terms, and informal language.
-- Accuracy may drop for **extremely rare or new Roman Urdu slang** not seen during training.
-- May misclassify mixed-script or heavily non-standard text.
+- May inherit biases from training data, including slang, offensive terms, and informal language.
+- Accuracy may drop on rare, new, or unseen Roman Urdu slang.
+- May misclassify heavily code-mixed or non-standard text.
 
-### Recommendations
+## Recommendations
 
-- Users should always validate predictions in critical applications.
-- Consider retraining or augmenting with additional domain-specific data for specialized use-cases.
+- Validate predictions in critical applications.
+- Consider additional fine-tuning for domain-specific use cases.
 
 ## How to Get Started with the Model
-
-### Quick Start
+## Quick Start
 ```python
 from transformers import pipeline
 
@@ -83,9 +98,7 @@ pipe = pipeline(
 
 pipe("ye banda bohot acha hai")
 ```
-
 ### Advanced Usage
-
 ```python
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
@@ -100,48 +113,45 @@ label_id = logits.argmax(dim=-1).item()
 
 id2label = {0:"Positive", 1:"Negative", 2:"Neutral"}
 print(id2label[label_id])
-
 ```
 
-### Training Details
-Training Data
+## Training Details
+### Training Data
 
-- Sources: WhatsApp chat exports, YouTube comments in Roman Urdu.
-- Preprocessing: Removed media messages, deleted messages, emoji-only messages, and very short messages.
-- Dataset size: 54k sentences (18k per class, balanced)
-- Labels: Positive, Negative, Neutral
+- Sources: WhatsApp chat exports, YouTube comments, Twitter, and other social media.
+- Dataset size: ~99k sentences (balanced across Positive, Negative, Neutral).
+- Preprocessing: Removed media-only, deleted, emoji-only, and very short messages.
 
-### Training Procedure
+## Training Procedure
 
 - Base Model: xlm-roberta-base
 - Training regime: fp16 mixed precision, batch size 16, gradient accumulation 4
-- Epochs: 4
-- Learning Rate: 2e-5
+- Epochs: 2
+- Learning Rate: 1e-5
 - Optimizer: AdamW
-- Evaluation Strategy: Epoch-level evaluation with stratified split
+- Evaluation: Epoch-level evaluation using stratified train/validation split
 
 ## Evaluation
-Evaluation
-Testing Data
+### Testing Data
 
-10% held-out subset of the balanced dataset (stratified per class)
+- 10% held-out subset of the robust 99k dataset (stratified per class)
 
-#### Metrics
+## Metrics
 
-- Accuracy, F1-score per class
-- Confusion matrix to inspect misclassification between classes
+- Accuracy and Macro F1 per class
+- Confusion matrix for analyzing misclassifications
 
-#### Results
+## Results
 
-- Overall accuracy: ~85–90% (depending on dataset variation)
-- Accuracy and F1 on vaidation data is 81.57%
-- Balanced F1 across Positive, Negative, Neutral
-
+- Overall Accuracy: ~84–85%
+- Macro F1: ~83–84%
+- Balanced performance across Positive, Negative, and Neutral classes
+- Benchmarking against other Roman Urdu sentiment models shows superior performance, especially on slang-heavy texts
 
 ## Environmental Impact
 
 - Hardware: NVIDIA T4 GPU (Colab)
-- Training Time: ~1–2 hours
+- Training Time: ~4–5 hours
 - Precision: fp16
 - Estimated CO₂ Emissions: Low (approx. 1–2 kg CO₂eq, Colab)
 
@@ -165,11 +175,9 @@ Testing Data
 ```
 
 - APA:
-
-```apa
+```APA
 Muhammad Khubaib Ahmad. (2025). Roman Urdu Sentiment Analysis Model. HuggingFace Transformers. Fine-tuned from xlm-roberta-base.
 ```
-
 ## Glossary
 
 - Roman Urdu: Urdu language written using the Latin alphabet.
@@ -180,7 +188,7 @@ Muhammad Khubaib Ahmad. (2025). Roman Urdu Sentiment Analysis Model. HuggingFace
 
 Muhammad Khubaib Ahmad
 
-## Model Card Contact
+Model Card Contact
 
 [Gmail: muhammadkhubaibahmad854@gmail.com](muhammadkhubaibahmad854@gmail.com)
 
